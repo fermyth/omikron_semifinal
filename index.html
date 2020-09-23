@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="theme.css" type="text/css">
+  <style media="screen">
+  /* this is loading css : fermyth */
+
+  /* Start by setting display:none to make this hidden.
+     Then we position it in relation to the viewport window
+     with position:fixed. Width, height, top and left speak
+     for themselves. Background we set to 80% white with
+     our animation centered, and no-repeating */
+  .modal {
+      display:    none;
+      position:   fixed;
+      z-index:    1000;
+      top:        0;
+      left:       0;
+      height:     100%;
+      width:      100%;
+      background: rgba( 255, 255, 255, .8 )
+                  url('http://i.stack.imgur.com/FhHRx.gif')
+                  50% 50%
+                  no-repeat;
+  }
+
+  /* When the body has the loading class, we turn
+     the scrollbar off with overflow:hidden */
+  body.loading .modal {
+      overflow: hidden;
+  }
+
+  /* Anytime the body has the loading class, our
+     modal element will be visible */
+  body.loading .modal {
+      display: block;
+  }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 class="text-center">Sisa Waktu&nbsp;<br></h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center" id="countdown">Waiting...</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-12 col-sm-12">
+          <div class="table-responsive w-100">
+            <table class="table">
+              <thead>
+                <tr></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Email</td>
+                  <td id="email"></td>
+                </tr>
+                <tr>
+                  <td>Code</td>
+                  <td id="kode_soal">AE</td>
+                </tr>
+                <tr>
+                  <td>Zoom ID</td>
+                  <td>123455</td>
+                </tr>
+                <tr>
+                  <td>Zoom Passwod</td>
+                  <td>324234</td>
+                </tr>
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+          <form class="">
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group"> <label>Jawaban Pertanyaan</label> <input type="text" id="jawaban" class="form-control form-control-lg"> </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"><button type="submit" id="button_submit" class="btn btn-primary btn-block">Kirim Jawaban</button></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Sept 23, 2020 20:37:25").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("countdown").innerHTML = "EXPIRED";
+  }
+}, 1000);
+
+var foo = getParameterByName('email');
+document.getElementById("email").innerHTML = foo;
+
+function onclickButton(){
+
+
+  alert("button clicked");
+
+
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
+
+$("#button_submit").click(function(){
+  var email = document.getElementById("email").innerHTML;
+  var kode_soal = document.getElementById("kode_soal").innerHTML;
+  var jawaban = document.getElementById("jawaban").value;
+
+  $body = $("body");
+  $body.addClass("loading");
+  //      ajaxStop: function() { $body.removeClass("loading"); }
+  // });
+
+  let url = 'https://api.sheety.co/078118d4ab00dc7340303bfdc93d0dc2/omikronSemifinal/zoomlink?filter[kode]='+kode_soal+'&filter[answer]='+jawaban;
+    fetch(url)
+    .then((response) => response.json())
+    .then(json => {
+      // Do something with the data
+      //console.log(json.zoomlink);
+
+      if(Array.isArray(json.zoomlink) && json.zoomlink.length){
+        //alert("not null");
+        // jawaban benar
+
+        let url = 'https://api.sheety.co/078118d4ab00dc7340303bfdc93d0dc2/omikronSemifinal/jawabans';
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify({"jawaban": { "email": email, "kode": kode_soal, "jawab" : jawaban }})
+        })
+        .then((response) => response.json())
+        .then(json => {
+          // Do something with object
+          $body.removeClass("loading");
+          console.log(json.jawaban);
+        });
+
+      }else{
+        //alert("null");
+        // jawaban salah
+
+
+        let url = 'https://api.sheety.co/078118d4ab00dc7340303bfdc93d0dc2/omikronSemifinal/jawabans';
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: JSON.stringify({"jawaban": { "email": email, "kode": kode_soal, "jawab" : jawaban }})
+        })
+        .then((response) => response.json())
+        .then(json => {
+          // Do something with object
+          //console.log(json.jawaban);
+          let url = 'https://api.sheety.co/078118d4ab00dc7340303bfdc93d0dc2/omikronSemifinal/penalties';
+
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify({"penalty": { "email": email, "kode": kode_soal, "time" : 10 }})
+          })
+          .then((response) => response.json())
+          .then(json => {
+            // Do something with object
+            $body.removeClass("loading");
+            alert("Jawaban Kamu Salah, Silahkan Coba lagi.")
+          });
+        });
+      }
+
+    });
+
+
+});
+
+function sendJSON(){
+          var email = document.getElementById("email").innerHTML;
+          var kode_soal = document.getElementById("kode_soal").innerHTML;
+          var jawaban = document.getElementById("jawaban").value;
+
+            // Creating a XHR object
+            let xhr = new XMLHttpRequest();
+            let url = "https://api.sheety.co/078118d4ab00dc7340303bfdc93d0dc2/omikronSemifinal/jawabans";
+
+            // open a connection
+            xhr.open("POST", url, true);
+
+            // Set the request header i.e. which type of content you are sending
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            // Create a state change callback
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+
+                    // Print received data from server
+                    result.innerHTML = this.responseText;
+
+                }
+            };
+
+            // Converting JSON data to string
+            var data = JSON.stringify({"jawaban": { "email": email, "kode": kode_soal, "jawab" : jawaban }});
+            //  alert(data);
+            // Sending data with the request
+            xhr.send(data);
+        }
+
+  // $body = $("body");
+  //
+  // $(document).on({
+  //     ajaxStart: function() { $body.addClass("loading");    },
+  //      ajaxStop: function() { $body.removeClass("loading"); }
+  // });
+
+</script>
+
+<div class="modal"><!-- Place at bottom of page --></div>
+
+</html>
